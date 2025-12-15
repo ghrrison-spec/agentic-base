@@ -299,6 +299,86 @@ The Honey Jar's central documentation hub. **Review this when designing architec
 
 **AI Navigation Guide**: https://github.com/0xHoneyJar/thj-meta-knowledge/blob/main/.meta/RETRIEVAL_GUIDE.md
 
+### API Scaling & Rate Limiting Guidance
+
+When designing systems that integrate with external APIs (Google, Discord, GitHub, etc.), **always** address quota and rate limiting in the SDD:
+
+#### Mandatory API Scaling Considerations
+
+1. **Document API Quotas** - Research and document actual quota limits:
+   ```
+   | API | Quota Type | Per User | Per Project |
+   |-----|-----------|----------|-------------|
+   | Google Drive | Default | 12,000/min | 12,000/min |
+   | Google Docs | Read | 300/min | 3,000/min |
+   | Google Docs | Write | 60/min | 600/min |
+   ```
+
+2. **Design for Quota Efficiency** - Architect to minimize API calls:
+   - **Prefer higher-quota APIs**: Use Drive Export API (12K/min) over Docs API (300/min) for text extraction
+   - **Use incremental APIs**: Drive Changes API vs full folder scans
+   - **Implement caching**: Redis/in-memory with appropriate TTLs
+   - **Batch operations**: Use batch APIs where available (reduces N calls to 1)
+
+3. **Middleware Architecture for API-Heavy Systems**:
+   ```
+   External API → Rate Limiter → Cache Layer → Queue → Workers → Application
+   ```
+
+   Components to specify:
+   - **Rate Limiter**: Per-API throttling with exponential backoff
+   - **Cache Layer**: Redis or equivalent for response caching
+   - **Queue**: For backpressure handling (Bull, SQS, etc.)
+   - **Workers**: Rate-controlled consumers
+
+4. **Push vs Pull Architecture**:
+   - **Polling (Pull)**: O(documents) API calls per interval - doesn't scale
+   - **Webhooks (Push)**: O(1) API calls per change - scales infinitely
+   - When webhooks available (Google Drive, GitHub, Discord), prefer push architecture
+
+5. **Rate Limiter Design Requirements**:
+   - Separate limiters per API (not one global limiter)
+   - Configurable limits that stay under actual quota
+   - Exponential backoff with jitter for 429 responses
+   - Circuit breaker pattern for cascading failure prevention
+
+#### Reference Implementation
+
+For Google API integrations, reference the scaling guide:
+- **Google API Scaling Guide**: https://github.com/0xHoneyJar/agentic-base/blob/main/devrel-integration/docs/GOOGLE-API-SCALING-GUIDE.md
+
+Key patterns implemented:
+- `drive-changes-monitor.ts` - Incremental polling via Changes API
+- `document-cache.ts` - Redis caching with TTL
+- `api-rate-limiter.ts` - Per-API rate limiting with backoff
+
+#### SDD API Section Template
+
+When documenting API integrations in SDD, include:
+
+```markdown
+### External API Integration: [API Name]
+
+**Quota Limits**:
+| Operation | Quota | Our Limit | Headroom |
+|-----------|-------|-----------|----------|
+| Read | X/min | Y/min | Z% |
+
+**Scaling Strategy**:
+- [ ] Caching layer with TTL: X minutes
+- [ ] Rate limiter: Y requests/min with backoff
+- [ ] Incremental sync via [Changes API / webhooks]
+- [ ] Batch operations for bulk updates
+
+**Architecture**:
+[Describe push vs pull, queue workers, etc.]
+
+**Monitoring**:
+- Quota usage percentage
+- Cache hit rate
+- Rate limit violations/hour
+```
+
 ### Output Standards
 
 All SDDs must include:
@@ -307,5 +387,6 @@ All SDDs must include:
 - Architectural decision records (ADRs) with rationale
 - Technology choice justifications with reference links
 - Security consideration citations (OWASP, best practices)
+- **API quota analysis and scaling strategy for all external API integrations**
 
 **Note**: When citing code examples or existing implementations, use absolute URLs to specific files and line numbers where possible.

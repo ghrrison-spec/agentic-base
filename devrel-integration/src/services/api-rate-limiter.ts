@@ -40,8 +40,8 @@ export class APIRateLimiter {
   /**
    * Throttle Google Drive API calls
    *
-   * Google Drive API Quota: 100 requests per 100 seconds per user
-   * We set a conservative limit of 100 requests per minute
+   * Google Drive API Quota: 12,000 requests per minute per user
+   * We set a conservative limit of 500 requests per minute to leave headroom
    */
   async throttleGoogleDriveAPI<T>(operation: () => Promise<T>, operationName?: string): Promise<T> {
     const api = 'google-drive';
@@ -67,6 +67,53 @@ export class APIRateLimiter {
 
         // Retry once after backoff
         logger.info(`Retrying Google Drive API call after backoff`, { operationName });
+        return await operation();
+      }
+
+      throw error;
+    }
+  }
+
+  /**
+   * Throttle Google Docs API calls
+   *
+   * Google Docs API Quota (per user):
+   * - Read requests: 300/min
+   * - Write requests: 60/min
+   *
+   * We set conservative limits to stay well under quota.
+   * IMPORTANT: Prefer Drive Export API over Docs API when possible!
+   * Drive Export uses Drive quota (12,000/min) not Docs quota (300/min).
+   */
+  async throttleGoogleDocsAPI<T>(
+    operation: () => Promise<T>,
+    operationType: 'read' | 'write' = 'read',
+    operationName?: string
+  ): Promise<T> {
+    const api = operationType === 'write' ? 'google-docs-write' : 'google-docs-read';
+    await this.checkAPIRateLimit(api);
+
+    try {
+      const result = await operation();
+
+      // Record successful request
+      this.recordRequest(api);
+
+      return result;
+
+    } catch (error) {
+      if (this.isRateLimitError(error)) {
+        logger.warn(`Google Docs API rate limit hit`, {
+          operationType,
+          operationName,
+          error: error instanceof Error ? error.message : String(error)
+        });
+
+        // Exponential backoff
+        await this.exponentialBackoff(api);
+
+        // Retry once after backoff
+        logger.info(`Retrying Google Docs API call after backoff`, { operationName });
         return await operation();
       }
 
@@ -291,26 +338,45 @@ export class APIRateLimiter {
 
   /**
    * Get API throttle configuration
+   *
+   * Quota Reference (per user, per minute):
+   * - Google Drive API: 12,000/min (we use 500 for safety)
+   * - Google Docs API Read: 300/min (we use 250 for safety)
+   * - Google Docs API Write: 60/min (we use 50 for safety)
+   * - Anthropic: Tier-dependent (we use 20 conservatively)
+   * - Discord: 50/sec global, 5/5sec per channel (we use 10/min)
    */
   private getAPIThrottleConfig(api: string): APIThrottleConfig {
     const configs: Record<string, APIThrottleConfig> = {
       'google-drive': {
-        maxRequestsPerMinute: 100,
+        maxRequestsPerMinute: 500,   // Quota: 12,000/min - plenty of headroom
         maxRetries: 3,
-        initialBackoffMs: 1000,  // Start with 1 second
-        maxBackoffMs: 30000      // Max 30 seconds
+        initialBackoffMs: 1000,      // Start with 1 second
+        maxBackoffMs: 30000          // Max 30 seconds
+      },
+      'google-docs-read': {
+        maxRequestsPerMinute: 250,   // Quota: 300/min - stay under limit
+        maxRetries: 5,
+        initialBackoffMs: 2000,      // Start with 2 seconds (Docs API is stricter)
+        maxBackoffMs: 60000          // Max 60 seconds
+      },
+      'google-docs-write': {
+        maxRequestsPerMinute: 50,    // Quota: 60/min - very conservative
+        maxRetries: 5,
+        initialBackoffMs: 3000,      // Start with 3 seconds (writes are expensive)
+        maxBackoffMs: 120000         // Max 2 minutes
       },
       'anthropic': {
         maxRequestsPerMinute: 20,
         maxRetries: 3,
-        initialBackoffMs: 2000,  // Start with 2 seconds
-        maxBackoffMs: 60000      // Max 60 seconds
+        initialBackoffMs: 2000,      // Start with 2 seconds
+        maxBackoffMs: 60000          // Max 60 seconds
       },
       'discord': {
         maxRequestsPerMinute: 10,
         maxRetries: 3,
-        initialBackoffMs: 1000,  // Start with 1 second
-        maxBackoffMs: 10000      // Max 10 seconds
+        initialBackoffMs: 1000,      // Start with 1 second
+        maxBackoffMs: 10000          // Max 10 seconds
       }
     };
 
@@ -385,6 +451,8 @@ export class APIRateLimiter {
       totalRequestsTracked,
       apiConfigs: {
         'google-drive': this.getAPIThrottleConfig('google-drive'),
+        'google-docs-read': this.getAPIThrottleConfig('google-docs-read'),
+        'google-docs-write': this.getAPIThrottleConfig('google-docs-write'),
         'anthropic': this.getAPIThrottleConfig('anthropic'),
         'discord': this.getAPIThrottleConfig('discord')
       }

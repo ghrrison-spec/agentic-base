@@ -345,9 +345,16 @@ export class GoogleDocsMonitor {
 
   /**
    * Fetch document content
+   *
+   * QUOTA OPTIMIZATION: Uses Drive Export API instead of Docs API
+   * - Drive API quota: 12,000 requests/min per user
+   * - Docs API quota: 300 requests/min per user (40x lower!)
+   *
+   * Trade-off: Plain text export loses rich formatting, but for digest
+   * generation this is acceptable and dramatically improves scalability.
    */
   private async fetchDocumentContent(file: drive_v3.Schema$File): Promise<string> {
-    if (!this.drive || !this.docs) {
+    if (!this.drive) {
       throw new Error('Google APIs not initialized');
     }
 
@@ -355,12 +362,14 @@ export class GoogleDocsMonitor {
 
     try {
       if (mimeType === 'application/vnd.google-apps.document') {
-        // Google Doc - use Docs API
-        const response = await this.docs.documents.get({
-          documentId: file.id!
-        });
+        // Google Doc - use Drive Export API (NOT Docs API) for quota efficiency
+        // This uses Drive API quota (12,000/min) instead of Docs API (300/min)
+        const response = await this.drive.files.export({
+          fileId: file.id!,
+          mimeType: 'text/plain'
+        }, { responseType: 'text' });
 
-        return this.extractTextFromGoogleDoc(response.data);
+        return response.data as string;
 
       } else if (mimeType === 'text/markdown' || mimeType === 'text/plain') {
         // Markdown or plain text - use Drive export

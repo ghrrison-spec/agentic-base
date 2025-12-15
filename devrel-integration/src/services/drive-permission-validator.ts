@@ -297,6 +297,26 @@ export class DrivePermissionValidator {
   }
 
   /**
+   * Check if a folder ID is whitelisted
+   *
+   * Uses cached folder info to resolve ID to path
+   * Used by DriveChangesMonitor for efficient change filtering
+   */
+  isFolderIdWhitelisted(folderId: string): boolean {
+    // Check cache for folder info
+    const folderInfo = this.folderCache.get(folderId);
+
+    if (folderInfo) {
+      return this.isFolderWhitelisted(folderInfo.path);
+    }
+
+    // If not in cache, we can't verify - return false for safety
+    // The full validation should have populated the cache
+    logger.debug('Folder ID not in cache, cannot verify whitelist', { folderId });
+    return false;
+  }
+
+  /**
    * Alert security team on permission violations
    */
   private async alertSecurityTeam(alert: AlertPayload): Promise<void> {
