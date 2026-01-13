@@ -106,7 +106,7 @@ The original framework documentation remains in this repository for reference:
 
 ## The Hive
 
-- [The HoneyJar](https://thehoneyjar.xyz) - The DAO
+- [The HoneyJar](https://0xhoneyjar.xyz) - The DAO
 - [Loa](https://github.com/0xHoneyJar/loa) - The framework (active development)
 - [Arrakis](https://github.com/0xHoneyJar/arrakis) - The product
 - [arrakis.community](https://arrakis.community) - The platform
@@ -122,5 +122,5 @@ MIT
 *"The sky above the port was the color of television, tuned to a dead channel."*
 *—William Gibson, Neuromancer*
 
-*The sky above the blockchain was the color of Claude's terminal, waiting for the next command.*
+*The clouds above the chain were the color of Claude's terminal, spelunking*
 *—The HoneyJar, 2025*
