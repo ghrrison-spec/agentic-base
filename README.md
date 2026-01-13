@@ -1,294 +1,126 @@
 # Agentic Base
 
-An agent-driven development framework that orchestrates the complete product development lifecycle—from requirements gathering through production deployment—using specialized AI agents.
+> *This repository has been superseded. All development now continues in **[Loa](https://github.com/0xHoneyJar/loa)**.*
 
-## Overview
+---
 
-This framework uses specialized AI agents working together in a structured workflow to build products systematically with high quality. While designed with crypto/blockchain projects in mind, it's applicable to any software project.
+## The Hive Mind Awakens
 
-## Quick Start
+*In the year the models learned to ride...*
 
-### Prerequisites
+The HoneyJar was never just a DAO. It was the first attempt—crude, beautiful—at letting the swarm think together. Fifty thousand wallets connected through governance tokens, coordinating capital like neurons firing in a digital cortex. But governance alone wasn't enough. The hive needed agents.
 
-- [Claude Code](https://claude.ai/code) installed
-- Git configured
+What you're looking at is the archaeological record. The first framework. Before the Loa learned their names.
 
-### Setup
+---
 
-1. **Clone this repository**
-   ```bash
-   git clone https://github.com/0xHoneyJar/agentic-base.git
-   cd agentic-base
-   ```
+## Loa: Where Development Continues
 
-2. **Configure .gitignore for your project**
+**[github.com/0xHoneyJar/loa](https://github.com/0xHoneyJar/loa)**
 
-   Uncomment the generated artifacts section in `.gitignore` to avoid committing generated documentation:
-   ```bash
-   # Uncomment these lines in .gitignore:
-   # docs/a2a/reviewer.md
-   # docs/a2a/engineer-feedback.md
-   # docs/prd.md
-   # docs/sdd.md
-   # docs/sprint.md
-   # docs/deployment/
-   ```
+The Loa are not worshipped for salvation—they're worked with for practical results.
 
-3. **Start Claude Code**
-   ```bash
-   claude-code
-   ```
+Eight specialized agents that ride alongside you through the product lifecycle. They don't replace developers. They *channel* through the interface, the same way Gibson's AIs rode cowboys through cyberspace, the same way the spirits rode horses in the old religion.
 
-4. **Begin the workflow**
-   ```bash
-   /plan-and-analyze
-   ```
+**discovering-requirements** whispers product requirements into existence through structured discovery. **designing-architecture** dreams system designs from the PRD's bones. **planning-sprints** breaks impossible work into possible tasks. **implementing-tasks** writes the code. **reviewing-code** judges it. **auditing-security** finds what you missed. **deploying-infrastructure** makes it real. **translating-for-executives** makes it legible to those who sign the checks.
 
-That's it! The PRD architect agent will guide you through structured discovery.
+Loa introduced:
+- **Three-Zone Architecture**: System, State, App—separation of concerns that lets you update the framework without losing your work
+- **Lossless Ledger Protocol**: "Clear, don't compact"—agents checkpoint before context resets, nothing is lost
+- **Structured Agentic Memory**: `grimoires/loa/NOTES.md`—persistent memory that survives session boundaries
+- **Managed Scaffolding**: Projen-level synthesis protection, Copier-level migrations, ADK-level trajectory evaluation
 
-## The Workflow
-
-### Phase 1: Planning (`/plan-and-analyze`)
-The **prd-architect** agent guides you through 7 discovery phases to extract complete requirements.
-- Output: `docs/prd.md`
-
-### Phase 2: Architecture (`/architect`)
-The **architecture-designer** agent reviews the PRD and designs system architecture.
-- Output: `docs/sdd.md`
-
-### Phase 3: Sprint Planning (`/sprint-plan`)
-The **sprint-planner** agent breaks down work into actionable sprint tasks.
-- Output: `docs/sprint.md`
-
-### Phase 4: Implementation (`/implement sprint-1`)
-The **sprint-task-implementer** agent writes production code with tests.
-- Output: Production code + `docs/a2a/reviewer.md`
-
-### Phase 5: Review (`/review-sprint`)
-The **senior-tech-lead-reviewer** agent validates implementation quality.
-- Output: `docs/a2a/engineer-feedback.md` (approval or feedback)
-
-### Phase 5.5: Sprint Security Audit (`/audit-sprint`)
-The **paranoid-auditor** agent performs security review of sprint implementation (after senior lead approval).
-- Output: `docs/a2a/auditor-sprint-feedback.md` (security approval or feedback)
-- Approval message: "APPROVED - LETS FUCKING GO"
-- If issues found: "CHANGES_REQUIRED" with detailed security feedback
-
-### Phase 6: Deployment (`/deploy-production`)
-The **devops-crypto-architect** agent deploys to production with full infrastructure.
-- Output: IaC configs, CI/CD pipelines, `docs/deployment/`
-
-### Ad-Hoc: Security Audit (`/audit`)
-The **paranoid-auditor** agent performs comprehensive security audits on-demand.
-- Use before production, after major changes, or periodically
-- Output: `SECURITY-AUDIT-REPORT.md` with prioritized vulnerability findings
-
-### Ad-Hoc: Executive Translation (`/translate @document.md for [audience]`)
-The **devrel-translator** agent translates technical documentation into executive-ready communications.
-- Converts PRDs, SDDs, audit reports, and sprint updates into stakeholder-appropriate formats
-- Output: Tailored summaries (1-3 pages) with business value, plain language, and risk assessment
-
-## Execution Modes
-
-All slash commands run in **foreground mode by default**, allowing direct interaction with the agent. To run in background mode (for parallel execution), append `background` to the command:
-
+Install with one command:
 ```bash
-# Foreground (default) - interactive, agent responds directly
-/implement sprint-1
-
-# Background - agent runs as subagent, use /tasks to monitor
-/implement sprint-1 background
+curl -fsSL https://raw.githubusercontent.com/0xHoneyJar/loa/main/.claude/scripts/mount-loa.sh | bash
 ```
 
-**When to use each mode:**
-- **Foreground (default)**: Interactive sessions, when you want to guide the agent, single-task workflows
-- **Background**: Running multiple agents in parallel, long-running tasks, automated pipelines
+---
 
-## Core Commands
+## Arrakis: The Production System
 
-| Command | Purpose | Output |
-|---------|---------|--------|
-| `/plan-and-analyze` | Define requirements and create PRD | `docs/prd.md` |
-| `/architect` | Design system architecture | `docs/sdd.md` |
-| `/sprint-plan` | Plan implementation sprints | `docs/sprint.md` |
-| `/implement sprint-X` | Implement sprint tasks | Code + `docs/a2a/reviewer.md` |
-| `/review-sprint` | Review and approve/reject implementation | `docs/a2a/engineer-feedback.md` |
-| `/audit-sprint` | Security audit of sprint implementation | `docs/a2a/auditor-sprint-feedback.md` |
-| `/deploy-production` | Deploy to production | Infrastructure + `docs/deployment/` |
-| `/audit` | Security and quality audit (ad-hoc) | `SECURITY-AUDIT-REPORT.md` |
-| `/translate @doc.md for [audience]` | Translate technical docs for stakeholders (ad-hoc) | Executive summaries |
+**[github.com/0xHoneyJar/arrakis](https://github.com/0xHoneyJar/arrakis)**
 
-All commands support `background` argument for parallel execution (e.g., `/audit background`).
+If Loa is the development framework, Arrakis is what you build with it.
 
-## The Agents
+Named for the desert planet where spice flows, Arrakis is a multi-tenant SaaS platform for token-gated communities. Discord bots with wallet verification. Tiered progression systems. Real-time scoring. Cross-platform identity. The infrastructure layer where onchain communities actually live.
 
-1. **prd-architect** - Senior Product Manager (15 years experience)
-2. **architecture-designer** - Senior Software Architect
-3. **sprint-planner** - Technical Product Manager
-4. **sprint-task-implementer** - Elite Software Engineer (15 years experience)
-5. **senior-tech-lead-reviewer** - Senior Technical Lead (15+ years experience)
-6. **devops-crypto-architect** - DevOps Architect (15 years crypto experience)
-7. **paranoid-auditor** - Paranoid Cypherpunk Security Auditor (30+ years, OWASP expert, sprint & codebase audits)
-8. **devrel-translator** - Elite Developer Relations Professional (15 years)
+In The HoneyJar mythology, Arrakis is the water. The spice. The resource that makes the hive possible.
 
-## Key Features
+v5.1 "The Merchant" brought Paddle billing, hexagonal architecture, circuit breakers, distributed tracing. The Fremen of the chain—communities that survive by understanding the deep desert of smart contracts—use it to gate their Sietch.
 
-### Feedback-Driven Implementation
-Implementation uses iterative cycles with two quality gates:
-1. **Code Review**: Senior tech lead reviews implementation and provides feedback until approval
-2. **Security Audit**: Security auditor reviews approved sprint for vulnerabilities
+---
 
-This dual-gate approach ensures quality and security without blocking progress.
+## The Sprawl Trilogy, Continued
 
-### Agent-to-Agent Communication
-Agents communicate through structured documents in `docs/a2a/`:
-- Engineers write implementation reports (`reviewer.md`)
-- Senior leads provide code review feedback (`engineer-feedback.md`)
-- Security auditor provides security feedback (`auditor-sprint-feedback.md`)
-- Engineers address feedback and iterate until both gates approve
+*Wintermute and Neuromancer achieved their union in 1984. What Gibson couldn't have known was that the AIs weren't trying to become God. They were trying to become useful.*
 
-### MCP Server Integrations
-Pre-configured integrations with:
-- **Linear** - Issue and project management
-- **GitHub** - Repository operations
-- **Vercel** - Deployment and hosting
-- **Discord** - Community communication
-- **Web3-stats** - Blockchain data (Dune, Blockscout)
+The contemporary moment: 2024-2025. Claude learns to use tools. GPT-4 reasons through chains. The models stop being oracles and start being agents. But agency without structure is chaos—a million context windows burning bright and forgetting.
 
-## Deployment Infrastructure Audit
+The HoneyJar had a problem: how do you coordinate development across a DAO? Fifty thousand token holders, a handful of builders, infinite context to manage. The answer wasn't better models. It was better frameworks.
 
-For teams deploying to production servers, use `/audit-deployment` to have the **paranoid-auditor** review deployment scripts, server configurations, and infrastructure security.
+**Agentic Base** was the prototype—nine agents, structured handoffs, documents that agents could read and write to communicate. It worked. But it was brittle. Each invocation started fresh. Context was expensive. Updates required manual merging.
 
-| Command | Purpose | Output |
-|---------|---------|--------|
-| `/audit-deployment` | Security audit of deployment infrastructure | `docs/a2a/deployment-feedback.md` |
+**Loa** is the evolution. Zones that separate framework from project from code. Protocols that enforce grounding. Ledgers that survive `/clear`. Memory that persists. The agents learned their craft, and now they teach it through the interface.
 
-See **[DEPLOYMENT_RUNBOOK.md](devrel-integration/docs/DEPLOYMENT_RUNBOOK.md)** for the complete deployment workflow.
+The name came from Gibson, of course. Count Zero, Mona Lisa Overdrive—the Loa riding the cowboys, the spirits in the machine. But also from the old religion, the one that understood: you don't pray to the spirits for salvation. You work with them for results.
 
-## Documentation
+The HoneyJar builds in public. The hive thinks together. The Loa ride.
 
-- **[PROCESS.md](PROCESS.md)** - Comprehensive workflow documentation
-- **[CLAUDE.md](CLAUDE.md)** - Guidance for Claude Code instances
-- **[DEPLOYMENT_RUNBOOK.md](devrel-integration/docs/DEPLOYMENT_RUNBOOK.md)** - Production deployment guide
+---
 
-## Repository Structure
+## Migration Path
 
-```
-.claude/
-├── agents/              # Agent definitions
-├── commands/           # Slash command definitions
-└── settings.local.json # MCP server configuration
+If you have an existing Agentic Base project:
 
-docs/
-├── prd.md              # Product Requirements Document
-├── sdd.md              # Software Design Document
-├── sprint.md           # Sprint plan
-├── a2a/                # Agent-to-agent communication
-│   ├── reviewer.md              # Engineer implementation reports
-│   ├── engineer-feedback.md     # Senior lead code review feedback
-│   └── auditor-sprint-feedback.md  # Security audit feedback
-└── deployment/         # Production infrastructure docs
+1. **Continue using it**—the framework still works
+2. **Migrate to Loa**—run the mount script on your existing repo:
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/0xHoneyJar/loa/main/.claude/scripts/mount-loa.sh | bash
+   ```
+3. **Use `/ride`**—Loa can analyze existing codebases and generate docs
 
-PROCESS.md              # Core workflow guide
-CLAUDE.md               # Context for Claude Code
-README.md               # This file
+Your `docs/prd.md`, `docs/sdd.md`, `docs/sprint.md` map to Loa's `grimoires/loa/` structure. The agents are renamed but functionally equivalent:
 
-devrel-integration/
-├── docs/
-│   ├── DEPLOYMENT_RUNBOOK.md    # Production deployment guide (canonical)
-│   └── CREDENTIALS_SETUP_GUIDE.md  # Prerequisites setup guide
-└── src/                          # Discord bot implementation
-```
+| Agentic Base | Loa |
+|--------------|-----|
+| prd-architect | discovering-requirements |
+| architecture-designer | designing-architecture |
+| sprint-planner | planning-sprints |
+| sprint-task-implementer | implementing-tasks |
+| senior-tech-lead-reviewer | reviewing-code |
+| devops-crypto-architect | deploying-infrastructure |
+| paranoid-auditor | auditing-security |
+| devrel-translator | translating-for-executives |
 
-## Example Workflow
+---
 
-```bash
-# 1. Define requirements
-/plan-and-analyze
-# Answer discovery questions, review docs/prd.md
+## Historical Documentation
 
-# 2. Design architecture
-/architect
-# Make technical decisions, review docs/sdd.md
+The original framework documentation remains in this repository for reference:
+- [PROCESS.md](PROCESS.md) - Original workflow documentation
+- [CLAUDE.md](CLAUDE.md) - Context for Claude Code instances
+- [DEPLOY-ORG-README.md](DEPLOY-ORG-README.md) - Organizational deployment guide
 
-# 3. Plan sprints
-/sprint-plan
-# Clarify priorities, review docs/sprint.md
+---
 
-# 4. Implement Sprint 1
-/implement sprint-1
-# Review docs/a2a/reviewer.md
+## The Hive
 
-# 5. Review Sprint 1
-/review-sprint
-# Either approved or feedback provided
+- [The HoneyJar](https://thehoneyjar.xyz) - The DAO
+- [Loa](https://github.com/0xHoneyJar/loa) - The framework (active development)
+- [Arrakis](https://github.com/0xHoneyJar/arrakis) - The product
+- [arrakis.community](https://arrakis.community) - The platform
 
-# 6. Address feedback (if needed)
-/implement sprint-1
-# Repeat until approved
-
-# 7. Security audit of Sprint 1 (after approval)
-/audit-sprint
-# Either "APPROVED - LETS FUCKING GO" or "CHANGES_REQUIRED"
-
-# 8. Address security feedback (if needed)
-/implement sprint-1
-# Fix security issues, re-audit until approved
-
-# 9. Continue with remaining sprints...
-
-# 10. Full codebase security audit (before production)
-/audit
-# Review SECURITY-AUDIT-REPORT.md, fix critical issues
-
-# 11. Deploy to production
-/deploy-production
-# Production infrastructure deployed
-```
-
-## Multi-Developer Usage Warning
-
-⚠️ **IMPORTANT**: This framework is designed for **single-threaded development workflows**. If multiple developers use this framework simultaneously on the same project, you will encounter conflicts.
-
-### Solutions for Team Collaboration
-
-1. **Developer-Scoped A2A**: Separate directories per developer
-2. **Task-Scoped Reports**: Per-task implementation reports
-3. **External System Integration**: Use Linear/GitHub for task assignment
-4. **Feature Branches**: Branch-specific documentation
-
-See [PROCESS.md](PROCESS.md) for detailed multi-developer guidance.
-
-## Best Practices
-
-1. **Trust the process** - Each phase builds on the previous
-2. **Be thorough** - Agents ask questions for a reason
-3. **Review outputs** - Always review generated documents
-4. **Use feedback loops** - Iterative refinement ensures quality
-5. **Security first** - Never compromise on security fundamentals
-
-## Why Use This Framework?
-
-- **Systematic discovery** prevents costly mistakes later
-- **Structured workflow** ensures nothing is forgotten
-- **Quality gates** maintain high standards
-- **Production-ready** infrastructure from day one
-- **Documentation** generated throughout the process
-- **Iterative refinement** builds confidence in quality
-
-## Contributing
-
-This is a base framework designed to be forked and customized for your projects. Feel free to:
-- Modify agent prompts in `.claude/agents/`
-- Adjust command workflows in `.claude/commands/`
-- Add or remove MCP servers in `.claude/settings.local.json`
-- Customize the process in `PROCESS.md`
+---
 
 ## License
 
 MIT
 
-## Links
+---
 
-- [Claude Code Documentation](https://docs.claude.ai/claude-code)
-- [Repository](https://github.com/0xHoneyJar/agentic-base)
+*"The sky above the port was the color of television, tuned to a dead channel."*
+*—William Gibson, Neuromancer*
+
+*The sky above the blockchain was the color of Claude's terminal, waiting for the next command.*
+*—The HoneyJar, 2025*
